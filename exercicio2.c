@@ -10,11 +10,11 @@ int main(){
 	pid_t pid;
 	int x, y, inicio, fim, limite;
 	FILE *fp;
-	char line[13], recebe[1];
+	char line[13], recebe[0];
 	size_t len = 0;
-    	size_t read;
+    size_t read;
 
-    	fp = fopen("exercicio2.txt", "r");
+    fp = fopen("exercicio2.txt", "r");
 	if (fp == NULL){
 		return 0;
 	}
@@ -23,19 +23,20 @@ int main(){
 		printf("%s", line);
 	}
 		
-	recebe = line[2];		
-	printf("Testando %c", recebe);
-
 	limite =  len/4;
 	inicio = 0;
 	fim = limite;
-	
+	printf("Início %d \n", inicio);
+	printf("Fim %d \n", fim);
+	printf("Limite %d \n", limite);
+
+	int ab = 0;
 	for(x = 0; x < 4; x++){
 		pid = fork();
 		if(pid == 0){
 			for(y = inicio; y < fim; y++){
-				if(line[y] == recebe){
-					
+				if(ab == 0){
+					printf("OI\n");
 				}
 			}
 		}
