@@ -1,54 +1,56 @@
-#include <sys/ipc.h>
-#include <sys/types.h>
-#include <sys/msg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <string.h>
 
 int main(){
 	pid_t pid;
-	int x, y, inicio, fim, limite;
-	FILE *fp;
-	char line[13], recebe[0];
-	size_t len = 0;
-    size_t read;
+	int i, j, inicio, fim, sizeVetor, limite, tamLeitura;
+	char *novo, vetor[27], pesquisar;
+	FILE *arq;
 
-    fp = fopen("busca.txt", "r");
-	if (fp == NULL){
+	tamLeitura = 27;
+
+	//Trecho onde o usuário irá informar o elemento que deseja buscar
+	printf("INFORME O ELEMENTO QUE DESEJA PESQUISAR: ");
+	fflush(stdin);
+	scanf("%c", &pesquisar);
+	fflush(stdin);
+	// Abre um arquivo texto para leitura
+	arq = fopen("busca.txt", "rt");
+	//verifica se o arquivo abriu com sucesso
+	if(arq == NULL) {
+		printf("Abriu arquivo");
 		return 0;
 	}
+	//variável novo vai receber todos os dados presente no arquivo de texto
+	novo = fgets(vetor, tamLeitura, arq);
 
-	while (fgets(line, 12, fp)!= NULL) {
-		printf("%s", line);
-	}
+	if(novo){
+		sizeVetor = strlen(vetor);
+		limite = sizeVetor/5;
+		inicio = 0;
+		fim = limite;
 		
-	limite =  len/4;
-	inicio = 0;
-	fim = limite;
-	printf("Início %d \n", inicio);
-	printf("Fim %d \n", fim);
-	printf("Limite %d \n", limite);
-
-	int ab = 0;
-	for(x = 0; x < 4; x++){
-		pid = fork();
-		if(pid == 0){
-			for(y = inicio; y < fim; y++){
-				if(ab == 0){
-					printf("OI\n");
+		int i, j;
+		for (i = 0; i < limite; i = i + 1){
+			pid = fork();
+			//Condição verifica se é processo filho
+			if (pid == 0){
+				//Laço para procurar nosso elemento informado pelo usuário
+				for (j = inicio; j < fim; j = j + 1){
+					if(vetor[j] == pesquisar){
+						printf("\n ELEMENTO %c ENCONTRADO - PROCESSO %d \n \n", pesquisar, getpid());
+					}
 				}
+				exit(0);
 			}
+			inicio = fim;
+			fim = fim + limite;
+			if(fim == 25)
+				fim = fim+1;
 		}
 	}
-	
-	inicio = fim;
-	fim += limite;
-
-	fclose(fp);
-	exit(EXIT_SUCCESS);
-		
+	return 0;
 }
-
-
-	
