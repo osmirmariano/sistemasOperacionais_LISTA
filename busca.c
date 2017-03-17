@@ -14,7 +14,7 @@ int main(){
 	size_t len = 0;
     size_t read;
 
-    fp = fopen("exercicio2.txt", "r");
+    fp = fopen("busca.txt", "r");
 	if (fp == NULL){
 		return 0;
 	}
