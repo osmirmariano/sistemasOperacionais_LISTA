@@ -28,7 +28,7 @@ int conjectura(int dado){
 }
 
 int main(){
-    printf("INFORME UM VALOR: ");
+    printf("INFORME UM VALOR:  ");
     scanf("%d", &valor);
     if(valor >= 1)//Condição para numeros válidos
         conjectura(valor);
